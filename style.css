@@ -1190,6 +1190,37 @@ a:hover {
     }
 }
 
+.collapsible-content {
+    overflow: hidden;
+    max-height: 240px;
+    transition: max-height 0.4s ease;
+}
+
+.collapsible-content.expanded {
+    max-height: 2000px;
+}
+
+.collapse-toggle {
+    margin-top: 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.4rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    background: rgba(212, 175, 55, 0.08);
+    color: var(--color-accent);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.collapse-toggle:hover {
+    background: rgba(212, 175, 55, 0.15);
+    transform: translateY(-1px);
+}
+
 .fade-in-up {
     animation: fadeInUp 0.8s ease-out;
     animation-fill-mode: both;
