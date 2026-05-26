@@ -452,6 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeTouchInteractions();
     initializeGlowEffects();
     initializeKeyboardNavigation();
+    initializeExpandableText();
     logPerformanceMetrics();
 
     // Initial updates
@@ -460,6 +461,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('✓ Heritage website initialized successfully');
 });
+
+function initializeExpandableText() {
+    const selectors = [
+        '.social-card',
+        '.political-card',
+        '.economic-card',
+        '.religion-card',
+        '.issue-card',
+        '.reflection-box'
+    ];
+
+    document.querySelectorAll(selectors.join(',')).forEach(card => {
+        const heading = card.querySelector('h4, h3');
+        if (!heading) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'collapsible-content';
+
+        let next = heading.nextSibling;
+        let movedAny = false;
+
+        while (next) {
+            const current = next;
+            next = current.nextSibling;
+            wrapper.appendChild(current);
+            movedAny = true;
+        }
+
+        if (!movedAny) return;
+
+        card.appendChild(wrapper);
+
+        if (wrapper.scrollHeight <= 260) {
+            return;
+        }
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'collapse-toggle';
+        toggle.textContent = 'See more';
+
+        toggle.addEventListener('click', () => {
+            const expanded = wrapper.classList.toggle('expanded');
+            toggle.textContent = expanded ? 'See less' : 'See more';
+
+            if (!expanded) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        card.appendChild(toggle);
+    });
+}
 
 // ===== UTILITY FUNCTIONS =====
 
