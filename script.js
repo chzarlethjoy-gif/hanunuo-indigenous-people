@@ -500,14 +500,27 @@ function initializeExpandableText() {
         const toggle = document.createElement('button');
         toggle.type = 'button';
         toggle.className = 'collapse-toggle';
+        toggle.setAttribute('aria-expanded', 'false');
         toggle.textContent = 'See more';
 
-        toggle.addEventListener('click', () => {
-            const expanded = wrapper.classList.toggle('expanded');
+        const updateToggle = (expanded) => {
+            wrapper.classList.toggle('expanded', expanded);
             toggle.textContent = expanded ? 'See less' : 'See more';
+            toggle.setAttribute('aria-expanded', expanded.toString());
+        };
 
+        toggle.addEventListener('click', () => {
+            const expanded = !wrapper.classList.contains('expanded');
+            updateToggle(expanded);
             if (!expanded) {
                 card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        toggle.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggle.click();
             }
         });
 
